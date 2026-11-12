@@ -59,6 +59,7 @@
   .fix.glue { background: #fdebe8; color: #b2321f; }
   .fix.tape { background: #e7f5ec; color: #1f6e40; }
   .fix.press { background: #f1efea; color: #555; }
+  .fix.clip { background: #fff3d6; color: #8a5a00; }
   .swatch { display: inline-block; width: 12px; height: 12px; border-radius: 3px; margin-right: 6px; vertical-align: -1px; border: 1px solid rgba(0,0,0,0.15); }
   .spec { display: grid; grid-template-columns: auto 1fr; gap: 6px 14px; font-size: 15px; }
   .spec dt { color: var(--muted); }
@@ -123,8 +124,8 @@
         <tr><td><b>Head pegs</b> (printed on the body)</td><td>Ø3.8 mm peg → Ø4.4 mm hole</td><td>2</td><td>Top of the hood collar, into the bottom of the head front</td><td><span class="fix press">Rests on</span> loose fit, lift the head off any time</td></tr>
         <tr><td><b>Ear-cup pegs</b> (printed on the cups)</td><td>Ø3.0 mm peg → Ø3.3 mm hole</td><td>2</td><td>Sides of the head back</td><td><span class="fix press">Push fit</span> add glue only if loose</td></tr>
         <tr><td><b>Backpack pegs</b> (printed on the backpack)</td><td>Ø3.0 mm peg → Ø3.4 mm hole</td><td>2</td><td>Back of the body</td><td><span class="fix press">Push fit</span> pull off to remove the cable</td></tr>
-        <tr><td><b>Super glue</b> (CA, gel type)</td><td>Small tube</td><td>1</td><td>Magnets, headphone band into the ear cups</td><td><span class="fix glue">Glue</span></td></tr>
-        <tr><td><b>Double-sided foam tape</b></td><td>About 1 mm thick, 10–20 mm wide</td><td>15 cm</td><td>Battery, speaker, and a thin strip behind the board if it rattles</td><td><span class="fix tape">Tape</span></td></tr>
+        <tr><td><b>Super glue</b> (CA, gel type)</td><td>Small tube</td><td>1</td><td>Magnets, speaker holder, headphone band into the ear cups</td><td><span class="fix glue">Glue</span></td></tr>
+        <tr><td><b>Double-sided foam tape</b></td><td>About 1 mm thick, 10–20 mm wide</td><td>15 cm</td><td>Battery, and a thin strip behind the board if it rattles</td><td><span class="fix tape">Tape</span></td></tr>
       </tbody>
     </table>
   </div>
@@ -192,12 +193,12 @@
       <thead><tr><th>Part</th><th>Qty</th><th>Search for</th><th>Notes</th></tr></thead>
       <tbody>
         <tr><td><b>Waveshare ESP32-S3-Touch-AMOLED-1.75</b></td><td>1</td><td><span class="mono">Waveshare ESP32-S3 1.75 AMOLED touch</span></td><td>Standard version, not "-G" (GPS). About C$35–45.</td></tr>
-        <tr><td><b>LiPo battery</b></td><td>1</td><td><span class="mono">3.7V 1000mAh lipo 103040 MX1.25</span></td><td>See the battery section above</td></tr>
-        <tr><td><b>Speaker</b>, 8 Ω 1–2 W, Ø20 mm</td><td>1</td><td><span class="mono">8ohm 2W speaker 20mm MX1.25</span></td><td>Often included with the board. At most Ø28 mm and 5 mm thick.</td></tr>
+        <tr><td><b>LiPo battery</b></td><td>1</td><td><span class="mono">3.7V 1000mAh lipo 103040 MX1.25</span></td><td>See the battery section above. A 500 mAh 752035 also fits and runs about half as long.</td></tr>
+        <tr><td><b>Speaker</b>, 8 Ω 2 W</td><td>1</td><td>Comes with the board</td><td>Waveshare 2030 box speaker, 20 × 30 × 5.5 mm, already fitted with an MX1.25 plug</td></tr>
         <tr><td><b>Magnets</b>, 6 × 2 mm</td><td>8</td><td><span class="mono">6x2mm neodymium magnet</span></td><td>Usually sold in packs of 20–50</td></tr>
         <tr><td><b>USB-C cable, 90° up/down angle</b></td><td>1</td><td><span class="mono">USB C 90 degree up down angle cable</span></td><td>The cable must leave the plug from its <i>flat face</i>, not its side</td></tr>
         <tr><td><b>Super glue</b> (gel) and <b>foam tape</b></td><td>1 each</td><td></td><td></td></tr>
-        <tr><td><b>PLA filament</b></td><td>3 colours</td><td></td><td><span class="swatch" style="background:#f4f3ef"></span>White about 22 g · <span class="swatch" style="background:#2b2b2d"></span>Black about 11 g · <span class="swatch" style="background:#e2402c"></span>Red about 62 g</td></tr>
+        <tr><td><b>PLA filament</b></td><td>3 colours</td><td></td><td><span class="swatch" style="background:#f4f3ef"></span>White about 23 g · <span class="swatch" style="background:#2b2b2d"></span>Black about 11 g · <span class="swatch" style="background:#e2402c"></span>Red about 62 g</td></tr>
       </tbody>
     </table>
   </div>
@@ -224,7 +225,8 @@
       <tbody>
         <tr><td>Screen board</td><td>Head front, glass facing out, USB-C pointing down</td><td><span class="fix press">Clamped</span> between the bezel lip and the ring on the head back</td></tr>
         <tr><td>Battery</td><td>Head back, flat against the back of the board, wires towards the board's battery socket</td><td><span class="fix tape">Foam tape</span></td></tr>
-        <tr><td>Speaker</td><td>Head back, against the inside of the grille</td><td><span class="fix tape">Foam tape</span> or a few dots of hot glue on its rim</td></tr>
+        <tr><td>Speaker</td><td>Head back, cone facing the grille</td><td><span class="fix clip">Clips</span> into the speaker holder</td></tr>
+        <tr><td>Speaker holder</td><td>Inside the dome of the head back, centred on the grille</td><td><span class="fix glue">Super glue</span></td></tr>
         <tr><td>Magnets</td><td>4 pockets on each side of the split between the head halves</td><td><span class="fix glue">Super glue</span></td></tr>
         <tr><td>Headphones</td><td>Band over the top, cups on the sides of the head back</td><td><span class="fix glue">Glue</span> band into cups, <span class="fix press">push fit</span> cups onto the head</td></tr>
         <tr><td>Head</td><td>Sits in the hood collar</td><td><span class="fix press">2 pegs</span> plus the USB cable</td></tr>
@@ -311,12 +313,17 @@
     </div></div>
 
     <div class="step"><div>
-      <h3>Stick down the battery and speaker <span class="fix tape">Foam tape</span></h3>
+      <h3>Fit the speaker and the battery <span class="fix glue">Glue</span> <span class="fix clip">Clip</span> <span class="fix tape">Foam tape</span></h3>
       <ul>
+        <li><b>Speaker holder:</b> drop it into the head back with its curved edge against the dome. It only sits flush when it's centred on the grille. Put 4 small dots of super glue on the curved edge and press it in for a minute. Keep glue away from the grille holes.</li>
+        <li><b>Speaker:</b> push it into the holder cone first (the black oval side towards the grille) until both clips click over its back. Lead the wire out through the notch at one end. To remove it, spread the two clips with a fingernail.</li>
         <li><b>Battery:</b> put a strip of foam tape on one flat side and stick it in the head back, lying flat and centred, close to where the board will sit. Point its wires towards the battery socket.</li>
-        <li><b>Speaker:</b> stick it against the inside of the grille, facing out. Use a ring of foam tape on its rim, or 3 small dots of hot glue on its rim. Don't put glue on the cone.</li>
         <li>Fold any spare wire flat. Nothing should sit between the two halves of the head.</li>
       </ul>
+      <figure style="max-width:420px">
+        <img src="renders/beat_buddy_speaker_holder.png" alt="Speaker clipped into its holder inside the head back">
+        <figcaption>Looking into the head back: the holder (orange) glued under the grille, with the speaker clipped in.</figcaption>
+      </figure>
     </div></div>
 
     <div class="step"><div>
@@ -362,7 +369,7 @@
       <table>
         <thead><tr><th>File</th><th>Colour</th><th>Parts</th></tr></thead>
         <tbody>
-          <tr><td><span class="mono">beat_buddy_WHITE_plate.3mf</span></td><td><span class="swatch" style="background:#f4f3ef"></span>White</td><td>Head front, head back</td></tr>
+          <tr><td><span class="mono">beat_buddy_WHITE_plate.3mf</span></td><td><span class="swatch" style="background:#f4f3ef"></span>White</td><td>Head front, head back, speaker holder</td></tr>
           <tr><td><span class="mono">beat_buddy_BLACK_plate.3mf</span></td><td><span class="swatch" style="background:#2b2b2d"></span>Black</td><td>Band, 2 ear cups, backpack</td></tr>
           <tr><td><span class="mono">beat_buddy_RED_plate.3mf</span></td><td><span class="swatch" style="background:#e2402c"></span>Red</td><td>Body</td></tr>
           <tr><td><span class="mono">beat_buddy_ALL_PARTS.3mf</span></td><td>Any</td><td>All 7 parts on one plate</td></tr>

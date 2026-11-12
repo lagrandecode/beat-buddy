@@ -20,7 +20,7 @@ This is the same style as CreativeChance's "Neo" Deskimon, but it is our own ori
 | --- | --- |
 | Front of the head | Waveshare ESP32-S3-Touch-AMOLED-1.75, held by the bezel ring |
 | Behind the board, in the head | 3.7 V 1000 mAh LiPo battery, the same one as in the photo |
-| Back of the head | 8 Ω speaker facing the grille |
+| Back of the head | The board's 8 Ω box speaker, clipped into a holder glued behind the grille |
 | Neck | USB-C port of the board, facing down and backwards into the backpack |
 
 ## What to buy
@@ -28,8 +28,8 @@ This is the same style as CreativeChance's "Neo" Deskimon, but it is our own ori
 | Item | Qty | Search for | Notes |
 | --- | --- | --- | --- |
 | Waveshare ESP32-S3-Touch-AMOLED-1.75 | 1 | "Waveshare ESP32-S3 1.75 AMOLED touch" | Standard version, not "-G". Get the kit with the speaker if offered. About C$35–45. |
-| 8 Ω 1–2 W speaker, about 20 mm, MX1.25 plug | 1 | "8ohm 2W speaker MX1.25" | Only if the board kit doesn't include one |
-| 3.7 V 1000 mAh LiPo, **MX1.25 2-pin** plug | 1 | "3.7V 1000mAh lipo 103040 MX1.25" | Flat battery, at most 10 × 30 × 40 mm. Check the red wire matches + on the board before plugging in. |
+| 8 Ω 2 W speaker | — | | Comes with the board (Waveshare 2030 box speaker, 20 × 30 × 5.5 mm). Spare: "Waveshare 8ohm 2W speaker". |
+| 3.7 V LiPo, **MX1.25 2-pin** plug | 1 | "3.7V 1000mAh lipo 103040 MX1.25" | Flat battery, at most 10 × 30 × 40 mm. A 500 mAh 752035 also fits and runs about half as long. Check the red wire matches + on the board before plugging in. |
 | USB-C cable, **right-angle** (90°) plug | 1 | "USB C 90 degree cable" | The backpack holds this plug so it sits neatly at the back |
 | Round magnets, 6 × 2 mm | 8 | "6x2mm neodymium magnet" | Hold the head front and back together, so you can open it |
 | Small rubber feet or 1 mm silicone sheet | 1 | | Non-slip bottom |
@@ -42,6 +42,7 @@ No soldering. Filament: white, black and your hoodie colour, about 120 g in tota
 | --- | --- |
 | Head front with the bezel ring | White |
 | Head back with the speaker grille | White |
+| Speaker holder, glued inside the head back | Any (hidden) |
 | Headphone band and ear cups | Black |
 | Body with the hood collar, drawstrings, arms and boots | Hoodie colour |
 | Backpack cable dock | Black |

@@ -7,20 +7,20 @@ OS="openscad --backend=manifold"
 OUT=../print
 mkdir -p "$OUT" ../renders
 
-for p in head_front head_back band cup_r cup_l body backpack; do
+for p in head_front head_back speaker_holder band cup_r cup_l body backpack; do
   $OS -D "part=\"$p\"" --export-format binstl -o "$OUT/beat_buddy_$p.stl" "$SCAD"
 done
 
 # one 3MF per filament colour, plus everything on one plate
 $OS --enable=lazy-union -D 'part="plate_white"' -o "$OUT/beat_buddy_WHITE_plate.3mf" "$SCAD"
-python3 name_3mf.py "$OUT/beat_buddy_WHITE_plate.3mf" "Head front (white)" "Head back (white)"
+python3 name_3mf.py "$OUT/beat_buddy_WHITE_plate.3mf" "Head front (white)" "Head back (white)" "Speaker holder (any colour)"
 $OS --enable=lazy-union -D 'part="plate_black"' -o "$OUT/beat_buddy_BLACK_plate.3mf" "$SCAD"
 python3 name_3mf.py "$OUT/beat_buddy_BLACK_plate.3mf" "Headphone band (black)" "Ear cup right (black)" "Ear cup left (black)" "Backpack (black)"
 $OS -D 'part="plate_red"' -o "$OUT/beat_buddy_RED_plate.3mf" "$SCAD"
 python3 name_3mf.py "$OUT/beat_buddy_RED_plate.3mf" "Body (hoodie colour)"
 $OS --enable=lazy-union -D 'part="plate_all"' -o "$OUT/beat_buddy_ALL_PARTS.3mf" "$SCAD"
 python3 name_3mf.py "$OUT/beat_buddy_ALL_PARTS.3mf" "Head front (white)" "Head back (white)" "Body (hoodie colour)" \
-  "Headphone band (black)" "Ear cup right (black)" "Ear cup left (black)" "Backpack (black)"
+  "Headphone band (black)" "Ear cup right (black)" "Ear cup left (black)" "Backpack (black)" "Speaker holder (any colour)"
 
 render() { $OS -D "part=\"$2\"" --render --imgsize=1400,1400 --colorscheme=Tomorrow --camera="$3" --projection=perspective -o "../renders/$1.png" "$SCAD"; }
 render beat_buddy_angle preview 0,0,55,72,0,-35,380

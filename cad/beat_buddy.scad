@@ -7,12 +7,12 @@
 // board from below and runs down a slot in the back into the backpack.
 //
 // Every part prints in one colour without supports:
-//   white: head_front, head_back    black: band, cup_r, cup_l, backpack    red: body
+//   white: head_front, head_back, speaker_holder    black: band, cup_r, cup_l, backpack    red: body
 //
 // Units: millimetres. Body frame: z up, the robot faces −y.
 
 /* [Render] */
-part = "preview"; // [preview, exploded, cutaway, head_front, head_back, band, cup_r, cup_l, body, backpack, plate_white, plate_black, plate_red, plate_all]
+part = "preview"; // [preview, exploded, cutaway, head_front, head_back, speaker_holder, band, cup_r, cup_l, body, backpack, plate_white, plate_black, plate_red, plate_all]
 white = "#f4f3ef";
 black = "#2b2b2d";
 hoodie = "#e2402c";
@@ -39,6 +39,15 @@ lip_t = 1.6;          // bezel thickness in front of the glass
 magnet_d = 6.3;       // 6 × 2 mm neodymium magnets, 4 pairs
 magnet_h = 2.2;
 magnet_angles = [0, 70, 110, 180];
+
+/* [Speaker — Waveshare 2030 box speaker included with the board] */
+spk = [30, 20, 5.5];  // length (left–right), height, thickness
+spk_fit = 0.3;
+spk_front = 36.5;     // cone face, measured back from the glass face
+clip_w = 10;
+clip_l = 7.5;
+clip_t = 1.0;
+clip_lip = 0.7;
 
 /* [Fit] */
 fit = 0.4;
@@ -84,8 +93,8 @@ module revolve(grow = 0) along_y() rotate_extrude($fn = 160) intersection() {
 
 module head_outer(grow = 0) revolve(grow);
 
-module head_cavity() along_y() rotate_extrude($fn = 160) intersection() {
-  offset(r = -wall) union() { polygon(head_profile()); mirror([1, 0]) polygon(head_profile()); }
+module head_cavity(inset = 0) along_y() rotate_extrude($fn = 160) intersection() {
+  offset(r = -wall - inset) union() { polygon(head_profile()); mirror([1, 0]) polygon(head_profile()); }
   translate([0, -50]) square([100, 200]);
 }
 
@@ -126,6 +135,45 @@ module head_full() {
     for (sx = [-1, 1]) translate([sx * (head_r - 5), cup_s, 0]) rotate([0, 90, 0]) cylinder(d = 3.3, h = 10, center = true, $fn = 24);
     // locating holes for the body pegs
     for (sx = [-1, 1]) translate([sx * peg_x, peg_s, -head_r - 1]) cylinder(d = 4.4, h = head_r + 1 - sqrt(head_r * head_r - peg_x * peg_x) + 3.8, $fn = 24);
+  }
+}
+
+// Separate holder glued into the dome behind the grille. The speaker clips in
+// cone first; the top follows the inside of the dome so it only seats centred.
+module speaker_holder() {
+  px = spk[0] + 2 * spk_fit;
+  pz = spk[1] + 2 * spk_fit;
+  sw = 1.6;
+  lip_y = spk_front - spk[2] - 0.2;
+  y0 = lip_y - 1.2;
+  difference() {
+    intersection() {
+      union() {
+        translate([-px / 2 - sw, y0, -pz / 2 - sw]) cube([px + 2 * sw, 30, pz + 2 * sw]);
+      }
+      head_cavity(0.15);
+    }
+    translate([-px / 2, y0 - 1, -pz / 2]) cube([px, 40, pz]);
+    for (m = [0, 1]) mirror([0, 0, m]) {
+      // flexing clip tab, freed by two slots and thinned from outside
+      for (sx = [-1, 1]) translate([sx * (clip_w / 2 + 0.3) - 0.3, y0 - 1, pz / 2 - 0.1]) cube([0.6, clip_l + 1, sw + 0.2]);
+      translate([-clip_w / 2, y0 - 1, pz / 2 + clip_t]) cube([clip_w, clip_l + 1, sw]);
+    }
+    // wire exits on both ends
+    for (sx = [-1, 1]) translate([sx * (px / 2 + sw / 2), y0 + 2, 0]) cube([sw + 1, 6, 6], center = true);
+  }
+  intersection() {
+    union() {
+      for (m = [0, 1]) mirror([0, 0, m]) hull() {
+        translate([-clip_w / 2 + 0.5, y0, pz / 2 - eps]) cube([clip_w - 1, eps, eps]);
+        translate([-clip_w / 2 + 0.5, lip_y - eps, pz / 2 - clip_lip]) cube([clip_w - 1, eps, clip_lip + eps]);
+      }
+      // corner stops the cone face rests on
+      for (sx = [-1, 1], sz = [-1, 1]) hull()
+        for (c = [[0, 0], [-3.5, 0], [0, -3.5]]) translate([sx * (px / 2 + c[0]), spk_front, sz * (pz / 2 + c[1])]) cube([eps, 30, eps]);
+    }
+    translate([-px / 2 - eps, y0, -pz / 2 - eps]) cube([px + 2 * eps, 30, pz + 2 * eps]);
+    head_cavity(0.15);
   }
 }
 
@@ -272,7 +320,7 @@ battery_size = [40, 10, 30];       // 103040 LiPo: width, thickness, height
 module components() {
   color("#1d3b2a") translate([0, lip_t, 0]) along_y() cylinder(r = board_d / 2, h = board_t, $fn = 120);
   color("#6f8fb5") translate([-battery_size[0] / 2, split_s + ring_t + 0.4, -battery_size[2] / 2]) cube(battery_size);
-  color("#444") translate([0, 37, 0]) along_y() cylinder(d = 20, h = 4.5, $fn = 60);
+  color("#444") translate([-spk[0] / 2, spk_front - spk[2], -spk[1] / 2]) cube([spk[0], spk[2], spk[1]]);
   color("#c8c8cc") for (a = magnet_angles) polar(a, magnet_r) translate([0, split_s - 2, 0]) along_y() cylinder(d = 6, h = 4, $fn = 32);
   color("#8a8a8a") {
     translate([-6, usb_s - 3.25, -board_r - 12]) cube([12, 6.5, 13]);
@@ -288,6 +336,7 @@ module exploded() {
   head_place() translate([0, 0, 35]) {
     color(white) translate([0, -30, 0]) head_front();
     translate([0, -12, 0]) components();
+    color("#9a9a9a") translate([0, 6, 0]) speaker_holder();
     color(white) translate([0, 18, 0]) head_back();
     color(black) {
       translate([0, 18, 22]) band();
@@ -302,7 +351,7 @@ module cutaway() {
     union() {
       color(hoodie) body();
       color(black) backpack();
-      head_place() { color(white) head_front(); color("#dcdcd6") head_back(); }
+      head_place() { color(white) head_front(); color("#dcdcd6") head_back(); color("#9a9a9a") speaker_holder(); }
     }
     translate([-100, -100, -1]) cube([100, 200, 200]);
   }
@@ -312,13 +361,14 @@ module cutaway() {
 // print orientations
 module p_head_front() translate([0, 0, split_s]) rotate([-90, 0, 0]) head_front();
 module p_head_back() translate([0, 0, -split_s]) rotate([90, 0, 0]) head_back();
+module p_speaker_holder() translate([0, 0, -(spk_front - spk[2] - 1.4)]) rotate([90, 0, 0]) speaker_holder();
 module p_band() translate([0, 0, -(cup_s - band_w / 2)]) rotate([90, 0, 0]) band();
 module p_cup_r() translate([0, 0, cup_out]) rotate([0, 90, 0]) translate([0, -cup_s, 0]) cup_r();
 module p_cup_l() translate([0, 0, cup_out]) rotate([0, -90, 0]) translate([0, -cup_s, 0]) cup_l();
 module p_backpack() translate([0, 0, bp_back]) rotate([-90, 0, 0]) translate([0, 0, -24]) backpack();
 module p_body() translate([0, 0, -base_z]) body();
 
-module plate_white() { translate([-40, 0, 0]) p_head_front(); translate([40, 0, 0]) p_head_back(); }
+module plate_white() { translate([-40, 0, 0]) p_head_front(); translate([40, 0, 0]) p_head_back(); translate([0, 55, 0]) p_speaker_holder(); }
 module plate_black() {
   translate([0, 35, 0]) p_band();
   translate([-30, -25, 0]) p_cup_r();
@@ -331,6 +381,7 @@ else if (part == "exploded") exploded();
 else if (part == "cutaway") cutaway();
 else if (part == "head_front") p_head_front();
 else if (part == "head_back") p_head_back();
+else if (part == "speaker_holder") p_speaker_holder();
 else if (part == "band") p_band();
 else if (part == "cup_r") p_cup_r();
 else if (part == "cup_l") p_cup_l();
@@ -347,4 +398,5 @@ else if (part == "plate_all") {
   translate([-90, -85, 0]) p_cup_r();
   translate([-55, -85, 0]) p_cup_l();
   translate([0, -80, 0]) p_backpack();
+  translate([-120, 20, 0]) p_speaker_holder();
 }
