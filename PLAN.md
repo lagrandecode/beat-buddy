@@ -1,53 +1,50 @@
 # Beat Buddy: build plan
 
-A seated desk robot with a round AMOLED face, chunky headphones and a cosy hoodie. The face shows animated eyes. It blinks, looks around, reacts to touch and motion, and doubles as a desk clock and focus timer. A small backpack clips on its back and holds the USB-C cable, so it charges while it sits on the desk.
+A seated desk robot with a round AMOLED face, chunky headphones and a cosy hoodie. The face shows animated eyes. It blinks, looks around, reacts to touch and motion, and doubles as a desk clock and focus timer. A USB-C cable comes in through the backpack, so it charges while it sits on the desk.
 
 This is the same style as CreativeChance's "Neo" Deskimon, but it is our own original model and firmware. If you want Neo exactly, buy the files and software on [CreativeChance's Patreon](https://www.patreon.com/CreativeChance). They're cheap and run on the same board.
 
 ## Look
 
 - **Size:** 84 mm wide across the headphones and 114 mm tall, seated.
-- **Head:** a white rounded capsule. The screen sits in the front behind a white bezel ring, with a black screen background and glowing yellow eyes. The back of the head has a speaker grille in a hexagon pattern.
-- **Headphones:** a black band over the top and round ear cups with a soft ring detail. The PWR and BOOT buttons are reached through a small slot on the side of the head.
+- **Head:** a white rounded capsule. The screen sits in the front behind a white bezel ring, with a black screen background and glowing yellow eyes. The back of the head has a speaker grille in a hexagon pattern. Two small white buttons on the top edge work the board's PWR and BOOT buttons.
+- **Headphones:** one black piece, a band around the back of the head with round ear cups that clip onto the sides.
 - **Hoodie:** a thick hood rolled around the neck, with two drawstrings hanging at the front.
 - **Body:** a chubby seated figure with its hands resting on its knees and big rounded feet in front. The wide base keeps it stable.
-- **Backpack:** a black cable dock that slides onto the back. A channel inside holds the USB-C plug so it lines up with the board's port. It's removable for when you run on battery.
-- **Colours (AMS):** white head, black headphones, backpack and screen frame, and a hoodie in a colour of your choice (red like the photo, or anything else). Yellow is only used on the screen, not in print.
+- **Backpack:** a black backpack with the cable coming out of it.
+- **Colours:** white head, black headphones and backpack, and a hoodie in a colour of your choice (red like the photo, or anything else). Yellow is only used on the screen, not in print.
 
 ## Inside
 
-| Where | What |
-| --- | --- |
-| Front of the head | Waveshare ESP32-S3-Touch-AMOLED-1.75, held by the bezel ring |
-| Behind the board, in the head | 3.7 V 1000 mAh LiPo battery, the same one as in the photo |
-| Back of the head | The board's 8 Ω box speaker, clipped into a holder glued behind the grille |
-| Neck | USB-C port of the board, facing down and backwards into the backpack |
+| Where | What | Held by |
+| --- | --- | --- |
+| Front of the head | Waveshare ESP32-S3-Touch-AMOLED-1.75 | The bezel lip in front, three pads on the head back pressing on its brass posts |
+| Top edge of the head | Two printed push-buttons over PWR and BOOT | Their collars, trapped between the board and the head front |
+| Back of the head | 752035 LiPo, then the speaker behind it, facing the grille | A four-column frame: ledges stop the speaker, catches hold the battery |
+| Head seam | Four snap hooks on the head front | Click into a groove inside the head back |
+| Neck and body | Straight USB-C cable, plugged in from below | A channel down the body that bends back to the backpack |
 
 ## What to buy
 
 | Item | Qty | Search for | Notes |
 | --- | --- | --- | --- |
-| Waveshare ESP32-S3-Touch-AMOLED-1.75 | 1 | "Waveshare ESP32-S3 1.75 AMOLED touch" | Standard version, not "-G". Get the kit with the speaker if offered. About C$35–45. |
-| 8 Ω 2 W speaker | — | | Comes with the board (Waveshare 2030 box speaker, 20 × 30 × 5.5 mm). Spare: "Waveshare 8ohm 2W speaker". |
-| 3.7 V LiPo, **MX1.25 2-pin** plug | 1 | "3.7V 1000mAh lipo 103040 MX1.25" | Flat battery, at most 10 × 30 × 40 mm. A 500 mAh 752035 also fits and runs about half as long. Check the red wire matches + on the board before plugging in. |
-| USB-C cable, **right-angle** (90°) plug | 1 | "USB C 90 degree cable" | The backpack holds this plug so it sits neatly at the back |
-| Round magnets, 6 × 2 mm | 8 | "6x2mm neodymium magnet" | Hold the head front and back together, so you can open it |
-| Small rubber feet or 1 mm silicone sheet | 1 | | Non-slip bottom |
+| Waveshare ESP32-S3-Touch-AMOLED-1.75 | 1 | "Waveshare ESP32-S3 1.75 AMOLED touch" | Standard version, not "-G". About C$35–45. |
+| 8 Ω 2 W speaker | — | | Comes with the board (Waveshare 2030 box speaker, 20 × 30 × 5.5 mm) |
+| 3.7 V 500 mAh LiPo, **MX1.25 2-pin** plug | 1 | "3.7V 500mAh lipo 752035 MX1.25" | 7.5 × 20 × 35 mm. Check the red wire matches + on the board before plugging in. |
+| USB-C cable, straight plug | 1 | | Stiff part of the plug at most 13 × 8.5 × 24 mm. Most cables fit. |
 
-No soldering. Filament: white, black and your hoodie colour, about 120 g in total.
+No soldering, glue, tape, screws or magnets. Filament: white, black and your hoodie colour, about 75 g in total.
 
 ## Print parts
 
-| Part | Colour |
-| --- | --- |
-| Head front with the bezel ring | White |
-| Head back with the speaker grille | White |
-| Speaker holder, glued inside the head back | Any (hidden) |
-| Headphone band and ear cups | Black |
-| Body with the hood collar, drawstrings, arms and boots | Hoodie colour |
-| Backpack cable dock | Black |
-
-No supports needed.
+| Part | Colour | Supports |
+| --- | --- | --- |
+| Head front with the bezel and snap hooks | White | None |
+| Head back with the grille and the speaker and battery frame | White | Tree (auto), inside the dome only |
+| Push-buttons ×2 | White | None |
+| Headphones | Black | None |
+| Body with the hood collar, drawstrings, arms, boots and cable channel | Hoodie colour | None |
+| Backpack | Black | None |
 
 ## Firmware
 
@@ -59,8 +56,6 @@ No supports needed.
 
 ## Build order
 
-1. Order the board, battery, right-angle cable and filament.
-2. I make the 3D model from the published board size while it ships.
-3. When the board arrives, measure it (diameter, thickness, USB-C and button positions). I adjust the fit.
-4. Flash the firmware and test the eyes on the bare board.
-5. Print, assemble, plug in.
+1. Print the parts (about 10 hours).
+2. Flash the firmware and test the eyes on the bare board.
+3. Assemble: buttons and board into the head front, speaker and battery into the head back, snap the head shut, add the headphones, run the cable through the body, fit the backpack.
