@@ -24,7 +24,7 @@
 // Units: millimetres. Body frame: z up, the robot faces −y.
 
 /* [Render] */
-part = "preview"; // [preview, exploded, cutaway, head_inside, head_front, head_back, button, headphones, body, backpack, plate_white, plate_black, plate_red, plate_all]
+part = "preview"; // [preview, exploded, cutaway, head_inside, head_front, head_back, button, headphones, body, backpack, plate_white, plate_black, plate_red, plate_all, plate_test]
 white = "#f4f3ef";
 black = "#2b2b2d";
 hoodie = "#e2402c";
@@ -67,6 +67,7 @@ clip_slot = 1.2;      // split down the middle of the peg
 clip_pit = 8;         // the pegs stand in pits this deep, so they are long enough to bend
 hp_clip_t = 3;        // headphone clip thickness (it prints flat on the bed)
 hp_clip_x = 29;       // face inside the head that the headphone clip catches on
+hp_clip_barb = 0.5;   // how far each prong's barb sticks out
 
 /* [Speaker and battery] */
 spk = [30, 20, 5.5];  // Waveshare 2030 box speaker: length, height, thickness
@@ -282,7 +283,7 @@ hp_root = hp_clip_x + 8.5;   // where the clip's two prongs join the cup
 // two prongs squeeze together through the window in the head, then spring apart behind it
 module hp_clip() translate([0, cup_cut, 0]) rotate([90, 0, 0]) linear_extrude(hp_clip_t)
   for (m = [0, 1]) mirror([0, m]) polygon([
-    [hp_root + 0.5, 0.7], [hp_root + 0.5, 2.0], [hp_clip_x, 2.0], [hp_clip_x - 0.3, 2.5], [hp_clip_x - 0.6, 2.5],
+    [hp_root + 0.5, 0.7], [hp_root + 0.5, 2.0], [hp_clip_x, 2.0], [hp_clip_x - 0.3, 2.0 + hp_clip_barb], [hp_clip_x - 0.6, 2.0 + hp_clip_barb],
     [hp_clip_x - 2.1, 1.6], [hp_clip_x - 2.1, 0.7]]);
 
 // room in the cup for the prongs to bend
@@ -523,6 +524,29 @@ module plate_black() {
   translate([0, -45, 0]) p_backpack();
 }
 
+// ---------------------------------------------------------------- clip test
+// Small pieces cut out of the real parts, in their real print orientations, to try
+// every kind of clip on your printer before the long prints.
+
+module wedge(a0, a1, r0, y0, y1) sector((a0 + a1) / 2, (a1 - a0) / 2) translate([r0, y0]) square([60, y1 - y0]);
+
+// bottom corner of the head front: one body-peg socket and one snap hook
+module test_head_front() intersection() { head_front(); wedge(108, 180, 20, -1, 40); }
+// strip of the head back's rim: that hook's pocket and one headphone window
+module test_head_back() intersection() { head_back(); wedge(77, 132, 27.5, 0, 30); }
+// the middle of one ear cup, with its clip and pin
+module test_cup() intersection() { headphones(); translate([22, cup_s - 4, -6.5]) cube([30, 30, 13]); }
+// one of the body's pegs, standing in its pit in a piece of the collar
+test_peg_z = 37.5;
+module test_peg() intersection() { body(); translate([peg_x, head_y + peg_s, test_peg_z]) cylinder(r = 6.5, h = 30); }
+
+module plate_test() {
+  color(white) translate([-34, -6, 0]) rotate([90, 0, 0]) test_head_front();
+  color(white) translate([-22, 20, -split_s]) rotate([90, 0, 0]) test_head_back();
+  color(black) translate([-10, 22, cup_cut]) rotate([-90, 0, 0]) test_cup();
+  color(hoodie) translate([-peg_x - 14, -head_y - peg_s - 12, -test_peg_z]) test_peg();
+}
+
 if (part == "preview") assembled();
 else if (part == "exploded") exploded();
 else if (part == "cutaway") cutaway();
@@ -536,6 +560,11 @@ else if (part == "backpack") p_backpack();
 else if (part == "plate_white") plate_white();
 else if (part == "plate_black") plate_black();
 else if (part == "plate_red") p_body();
+else if (part == "plate_test") plate_test();
+else if (part == "test_head_front") rotate([90, 0, 0]) test_head_front();
+else if (part == "test_head_back") translate([0, 0, -split_s]) rotate([90, 0, 0]) test_head_back();
+else if (part == "test_cup") translate([0, 0, cup_cut]) rotate([-90, 0, 0]) test_cup();
+else if (part == "test_peg") translate([0, 0, -test_peg_z]) test_peg();
 else if (part == "plate_all") {
   translate([-75, 70, 0]) p_head_front();
   translate([0, 70, 0]) p_head_back();

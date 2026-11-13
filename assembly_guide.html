@@ -356,6 +356,18 @@
 <section id="printing">
   <h2>Printing</h2>
   <p class="lead">Every part prints in one colour, in the orientation already set in the files. Only the head back needs supports.</p>
+  <div class="note tip"><b>Print the clip test first.</b> How firmly a clip clicks depends on the printer. <span class="mono">beat_buddy_CLIP_TEST.3mf</span> takes 52 minutes and about 6 g of any colour, and has one of every clip, cut out of the real parts.
+    <ul>
+      <li><b>Body peg:</b> push the head front corner (the piece with the round hole) down onto the peg. It should click, and need a firm pull to come off. Adjust <code>clip_barb</code>.</li>
+      <li><b>Headphone clip:</b> push the ear cup's clip through the square window in the thin strip, with the pin in the round hole. It should click and stay in when you shake it. Adjust <code>hp_clip_barb</code>.</li>
+      <li><b>Head hook:</b> stand the thin strip on the head front corner, with the hook inside it, and pinch them together. You should feel the hook's bump drop into its pocket. Adjust <code>hook_bump</code>.</li>
+    </ul>
+    Too loose: raise the value by 0.1. Too tight: lower it by 0.1. Then print the head front and buttons, try the board in it, and print the body last.
+  </div>
+  <figure style="margin:16px 0 20px;max-width:520px">
+    <img src="renders/beat_buddy_clip_test.png" alt="The four clip test pieces">
+    <figcaption>The clip test: ear cup, head back strip, head front corner and body peg.</figcaption>
+  </figure>
   <div class="grid2">
     <div class="tablewrap">
       <table>
@@ -365,6 +377,7 @@
           <tr><td><span class="mono">beat_buddy_BLACK_plate.3mf</span></td><td><span class="swatch" style="background:#2b2b2d"></span>Black</td><td>Headphones, backpack</td></tr>
           <tr><td><span class="mono">beat_buddy_RED_plate.3mf</span></td><td><span class="swatch" style="background:#e2402c"></span>Red</td><td>Body</td></tr>
           <tr><td><span class="mono">beat_buddy_ALL_PARTS.3mf</span></td><td>Any</td><td>All 7 parts on one plate</td></tr>
+          <tr><td><span class="mono">beat_buddy_CLIP_TEST.3mf</span></td><td>Any</td><td>4 small clip test pieces. Print first.</td></tr>
         </tbody>
       </table>
     </div>

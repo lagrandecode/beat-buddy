@@ -23,6 +23,11 @@ $OS --enable=lazy-union -D 'part="plate_all"' -o "$OUT/beat_buddy_ALL_PARTS.3mf"
 python3 name_3mf.py "$OUT/beat_buddy_ALL_PARTS.3mf" "Head front (white)" "Head back (white)" "Button PWR (white)" "Button BOOT (white)" \
   "Body (hoodie colour)" "Headphones (black)" "Backpack (black)"
 
+# small test pieces: every kind of clip, to try before the long prints
+$OS -D 'part="plate_test"' --export-format binstl -o "$OUT/beat_buddy_CLIP_TEST.stl" "$SCAD"
+$OS --enable=lazy-union -D 'part="plate_test"' -o "$OUT/beat_buddy_CLIP_TEST.3mf" "$SCAD"
+python3 name_3mf.py "$OUT/beat_buddy_CLIP_TEST.3mf" "Test: head front corner" "Test: head back strip" "Test: ear cup" "Test: body peg"
+
 render() { $OS -D "part=\"$2\"" --render --imgsize=1400,1400 --colorscheme=Tomorrow --camera="$3" --projection=perspective -o "../renders/$1.png" "$SCAD"; }
 render beat_buddy_angle preview 0,0,55,72,0,-35,380
 render beat_buddy_front preview 0,0,58,88,0,0,330
@@ -31,6 +36,7 @@ render beat_buddy_back preview 0,0,58,75,0,150,340
 render beat_buddy_print_plate plate_all 0,0,10,40,0,15,520
 render beat_buddy_exploded exploded 0,-5,70,72,0,58,500
 render beat_buddy_head_inside head_inside 0,25,0,70,0,25,170
+render beat_buddy_clip_test plate_test -1,12,6,52,0,205,185
 
 # cut-through pictures of the clips
 clip() { $OS -D "view=\"$2\"" --render --imgsize=$3 --colorscheme=Tomorrow --camera="$4" $5 --projection=$6 -o "../renders/$1.png" clip_views.scad; }

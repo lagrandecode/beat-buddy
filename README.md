@@ -21,9 +21,26 @@ Everything snaps together. There's no glue, tape, screws or magnets.
 | `print/beat_buddy_RED_plate.3mf` | Body |
 | `print/beat_buddy_ALL_PARTS.3mf` | All 7 parts on one plate, named by colour |
 | `print/beat_buddy_*.stl` | Each part on its own, already in print orientation. Print `button.stl` twice. |
+| `print/beat_buddy_CLIP_TEST.3mf` / `.stl` | Four small test pieces with every kind of clip. **Print this first** (see below). |
 | `cad/beat_buddy.scad` | The editable OpenSCAD model. Board sizes are at the top. |
 
 Every part is a single colour, so you don't need an AMS: print one plate per colour.
+
+## Print the clip test first
+
+How firmly a clip clicks depends on the printer, and no model can predict that exactly. So before the long prints, print `print/beat_buddy_CLIP_TEST.3mf`: **52 minutes and about 6 g** of any colour, no supports. The four pieces are cut out of the real parts, so they behave like the real thing.
+
+![Clip test pieces](renders/beat_buddy_clip_test.png)
+
+| Try this | It should | If it's too loose | If it's too tight |
+| --- | --- | --- | --- |
+| Push the head front corner (the piece with the round hole) down onto the red peg | Click, and need a firm pull to come off | Raise `clip_barb` by 0.1 | Lower `clip_barb` by 0.1 |
+| Push the ear cup's clip through the square window in the thin strip, with the pin in the round hole | Click, and not fall out when you shake it | Raise `hp_clip_barb` by 0.1 | Lower `hp_clip_barb` by 0.1 |
+| Stand the thin strip on the head front corner, with the hook inside it, and pinch them together | Let you feel the hook's bump drop into its pocket | Raise `hook_bump` by 0.1 | Lower `hook_bump` by 0.1 |
+
+Those three values are at the top of `cad/beat_buddy.scad`. Change one, run `cad/build.sh`, and only then print the full parts.
+
+Then print in this order, so a problem never costs more than one part: **head front + buttons** (check the board, the buttons and the USB-C slot), **head back**, **headphones and backpack**, and the **body** last.
 
 ## Printing
 
