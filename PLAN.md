@@ -8,7 +8,7 @@ This is the same style as CreativeChance's "Neo" Deskimon, but it is our own ori
 
 - **Size:** 84 mm wide across the headphones and 114 mm tall, seated.
 - **Head:** a white rounded capsule. The screen sits in the front behind a white bezel ring, with a black screen background and glowing yellow eyes. The back of the head has a speaker grille in a hexagon pattern. Two small white buttons on the top edge work the board's PWR and BOOT buttons.
-- **Headphones:** one black piece, a band around the back of the head with round ear cups that clip onto the sides.
+- **Headphones:** one black piece, a band around the back of the head with round ear cups that clip into the sides.
 - **Hoodie:** a thick hood rolled around the neck, with two drawstrings hanging at the front.
 - **Body:** a chubby seated figure with its hands resting on its knees and big rounded feet in front. The wide base keeps it stable.
 - **Backpack:** a black backpack with the cable coming out of it.
@@ -19,9 +19,11 @@ This is the same style as CreativeChance's "Neo" Deskimon, but it is our own ori
 | Where | What | Held by |
 | --- | --- | --- |
 | Front of the head | Waveshare ESP32-S3-Touch-AMOLED-1.75 | The bezel lip in front, three pads on the head back pressing on its brass posts |
-| Top edge of the head | Two printed push-buttons over PWR and BOOT | Their collars, trapped between the board and the head front |
+| Top edge of the head | Two flat printed push-buttons over PWR and BOOT | Their wide ends, trapped between the board and the head front |
 | Back of the head | 752035 LiPo, then the speaker behind it, facing the grille | A four-column frame: ledges stop the speaker, catches hold the battery |
-| Head seam | Four snap hooks on the head front | Click into a groove inside the head back |
+| Head seam | Four snap hooks on the head front | Each clicks into its own pocket inside the rim of the head back |
+| Sides of the head | Headphones | A split clip and a locating pin on each ear cup |
+| Under the head | Two split, barbed pegs standing in the collar | Click into sockets under the head front |
 | Neck and body | Straight USB-C cable, plugged in from below | A channel down the body that bends back to the backpack |
 
 ## What to buy

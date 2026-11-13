@@ -2,18 +2,21 @@
 //
 // The head holds a Waveshare ESP32-S3-Touch-AMOLED-1.75 behind a white bezel.
 // Everything snaps together, no glue or magnets:
-//   - the head back clicks onto four snap hooks on the head front
+//   - the head back clicks onto four snap hooks on the head front; each hook
+//     drops into its own pocket inside the head back's rim
 //   - three pads in the head back press on the board's brass posts
 //   - two printed push-buttons reach the board's PWR and BOOT buttons
 //   - the speaker and a 752035 LiPo clip into a frame inside the head back
-//   - the one-piece headphones snap their pegs into holes in the head
-//   - the backpack snaps onto the body on two barbed pegs
+//   - the one-piece headphones snap a split clip into each side of the head
+//   - the head snaps onto two split, barbed pegs standing in the collar
+//   - the backpack snaps onto the body on two split, barbed pegs
 // A straight USB-C cable comes in through the backpack, runs up a channel in
 // the body and plugs into the board from below.
 //
 // Board positions come from Waveshare's dimension drawing: PWR and BOOT sit on
-// the board edge 34° either side of the point opposite the USB-C port, and the
-// three M2 brass posts are the rearmost parts, 10.4 mm behind the glass.
+// the back of the circuit board, at its edge, 34° either side of the point
+// opposite the USB-C port. The three M2 brass posts end 10.4 mm behind the
+// glass; the SPK/BAT sockets and the pin header stand a little taller.
 //
 // Print colours: white head_front, head_back, button ×2 · black headphones,
 // backpack · red body. Head front prints screen side down.
@@ -31,10 +34,16 @@ eye = "#ffd23a";
 board_d = 48.96;      // glass outline
 board_t = 10.4;       // glass to the tops of the brass posts
 window_d = 46;        // visible opening in the bezel (screen is 43.8 mm)
-usb_depth = 7.5;      // USB-C centre, back from the glass
-btn_depth = 7.5;      // PWR/BOOT button centre, back from the glass
+pcb_back = 6.9;       // glass to the back face of the circuit board
+usb_depth = 8.6;      // USB-C centre, back from the glass (the port sits on the back of the circuit board)
 btn_angle = 34;       // PWR left, BOOT right, degrees either side of the top
-posts = [[-20.5, 0], [18.68, 13.75], [18.68, -13.75]];  // brass posts (x, z), USB-C pointing down
+posts = [[-20.5, 0], [14.7, 13.75], [14.7, -13.75]];  // brass posts (x, z), USB-C pointing down
+
+/* [Push-buttons] */
+btn_t = 2.4;          // thickness; the buttons print lying flat
+btn_w = 3;            // stem width
+btn_head = [6, 1.2];  // wide inner end: width, length
+btn_len = 11.6;
 
 /* [Head] */
 head_r = 33;
@@ -47,9 +56,17 @@ lip_t = 1.6;          // bezel in front of the glass
 hook_angles = [-120, -62, 62, 120];
 hook_w = 8;
 hook_len = 5;         // how far the hooks reach into the head back
-hook_root = 4;        // how far the hooks are rooted into the head front
+hook_root = 7.5;      // how far the hooks reach down into the head front, for a long, easy bend
 hook_t = 1.4;
 hook_bump = 0.7;
+
+/* [Clips: body to head, headphones to head] */
+clip_d = 4;           // body peg shaft
+clip_barb = 0.5;      // how far each barb sticks out
+clip_slot = 1.2;      // split down the middle of the peg
+clip_pit = 8;         // the pegs stand in pits this deep, so they are long enough to bend
+hp_clip_t = 3;        // headphone clip thickness (it prints flat on the bed)
+hp_clip_x = 29;       // face inside the head that the headphone clip catches on
 
 /* [Speaker and battery] */
 spk = [30, 20, 5.5];  // Waveshare 2030 box speaker: length, height, thickness
@@ -69,7 +86,7 @@ eps = 0.01;
 board_r = board_d / 2 + 0.2;
 split_s = lip_t + board_t + 0.15;  // head splits just behind the brass posts
 usb_s = lip_t + usb_depth;
-btn_s = lip_t + btn_depth;
+btn_s = lip_t + pcb_back + 0.4 + btn_t / 2;  // the buttons pass just behind the circuit board, onto its switches
 cup_s = 17;                        // headphone pegs, back from the face
 cup_r = 13;
 cup_out = head_r + 9;
@@ -78,6 +95,7 @@ band_w = 8;
 band_t = 4;
 band_angle = 78;
 col_x = [12.5, 15.5];              // frame columns for the speaker and battery
+col_xl = [-14, -11];               // the left pair sit further in, clear of the SPK and BAT sockets
 col_z = 10.35;
 col_t = 2.5;
 bat_back = spk_front - spk[2];     // battery rests against the back of the speaker
@@ -86,7 +104,7 @@ bat_front = bat_back - bat[2] - 0.2;
 head_y = -18;                      // face plane in the body frame
 head_z = 79;                       // head axis height
 collar_c = [0, 4, 45];
-peg_x = 12;
+peg_x = 12.5;
 peg_s = 8;
 usb_y = head_y + usb_s;
 base_z = 2;
@@ -128,6 +146,14 @@ hook_ri = head_r - wall - 0.25 - hook_t;
 hook_half = hook_w / (2 * PI * (hook_ri + hook_t)) * 180;
 hook_tip = split_s + hook_len;
 
+// body-to-head clip, heights in the head frame at the peg centre
+sock_z0 = -sqrt(head_r * head_r - peg_x * peg_x);                    // head surface
+sock_neck = sock_z0 + 2.3;                                           // end of the neck
+sock_end = sock_z0 + 6.5;                                            // end of the room
+seat_z = -sqrt((head_r + fit) * (head_r + fit) - peg_x * peg_x);     // collar surface
+// the head settles about 0.35 mm into the collar's clearance; the barbs meet the neck there
+clip_catch = sock_neck - 0.12 - 0.35;
+
 module hook_profile() polygon([
   [hook_ri, split_s - hook_root - 0.5], [hook_ri + hook_t, split_s - hook_root - 0.5],
   [hook_ri + hook_t, hook_tip - 1.8], [hook_ri + hook_t + hook_bump, hook_tip - 1.1],
@@ -142,37 +168,46 @@ module head_front() {
     translate([0, lip_t, 0]) along_y() cylinder(r = board_r, h = split_s, $fn = 160);
     translate([0, -eps, 0]) along_y() cylinder(h = lip_t + 2 * eps, r1 = window_d / 2 + 1.2, r2 = window_d / 2, $fn = 160);
     usb_slot();
-    // push-button holes, with a recess for each button's collar
+    // push-button channels, with a recess for each button's wide end
     for (a = [-btn_angle, btn_angle]) at_angle(a, btn_s) {
-      translate([0, 0, 23.5]) cylinder(d = 3.4, h = 12, $fn = 32);
-      translate([0, 0, 23.5]) cylinder(d = 5.9, h = 2.45, $fn = 40);
+      translate([0, 0, 23.5 + 6]) cube([btn_w + 0.4, btn_t + 0.4, 12], center = true);
+      translate([0, 0, 23.5 + 1.15]) cube([btn_head[0] + 0.6, btn_t + 0.4, 2.3], center = true);
     }
     // room for the snap hooks to flex
     for (a = hook_angles) sector(a, hook_half + 2)
-      translate([hook_ri - 0.75, split_s - hook_root]) square([hook_t + hook_bump + 1.0, hook_root + 1]);
-    // locating holes for the body pegs
-    for (sx = [-1, 1]) translate([sx * peg_x, peg_s, -head_r - 1]) cylinder(d = 4.4, h = head_r + 1 - sqrt(head_r * head_r - peg_x * peg_x) + 3.8, $fn = 24);
+      translate([hook_ri - 0.75, split_s - hook_root]) square([hook_t + 0.75 + 0.3, hook_root + 1]);
+    // sockets for the body's clip pegs: a neck, then a wider room the barbs open into
+    for (sx = [-1, 1]) translate([sx * peg_x, peg_s, 0]) {
+      translate([0, 0, -head_r - 1]) linear_extrude(sock_neck + head_r + 1) teardrop(clip_d + 0.4);
+      hull() {
+        translate([0, 0, sock_neck - eps]) linear_extrude(eps) teardrop(clip_d + 0.4);
+        translate([0, 0, sock_neck + 0.36]) linear_extrude(eps) teardrop(clip_d + 1.6, 3.2);
+      }
+      translate([0, 0, sock_neck + 0.36]) linear_extrude(sock_end - sock_neck - 0.36) teardrop(clip_d + 1.6, 3.2);
+    }
   }
   for (a = hook_angles) sector(a, hook_half) hook_profile();
 }
 
-// PWR/BOOT push-button, modelled pointing outwards along +z, collar on the bed
-module button() {
-  cylinder(d = 5.4, h = 1, $fn = 40);
-  cylinder(d = 3, h = 9.3, $fn = 32);
-  translate([0, 0, 9.3]) sphere(d = 3, $fn = 32);
+// PWR/BOOT push-button, lying flat as printed, pointing along +y. The wide end rests on
+// the board's switch; being flat, it reaches behind the circuit board without touching its edge.
+module button() linear_extrude(btn_t) {
+  translate([-btn_head[0] / 2, 0]) square(btn_head);
+  translate([-btn_w / 2, 0]) square([btn_w, btn_len - btn_w / 2]);
+  translate([0, btn_len - btn_w / 2]) circle(d = btn_w, $fn = 32);
 }
 
 // speaker and battery frame, four columns hanging from the dome
 module frame() {
-  for (sx = [-1, 1], sz = [-1, 1]) mirror([sx < 0 ? 1 : 0, 0, 0]) mirror([0, 0, sz < 0 ? 1 : 0]) {
-    translate([col_x[0], split_s, col_z]) cube([col_x[1] - col_x[0], 40, col_t]);
+  for (cx = [col_x, col_xl], sz = [-1, 1]) mirror([0, 0, sz < 0 ? 1 : 0]) {
+    w = cx[1] - cx[0];
+    translate([cx[0], split_s, col_z]) cube([w, 40, col_t]);
     // stops for the speaker's cone face
-    translate([col_x[0], spk_front, col_z - 1.5]) cube([col_x[1] - col_x[0], 10, 1.5 + eps]);
+    translate([cx[0], spk_front, col_z - 1.5]) cube([w, 10, 1.5 + eps]);
     // battery catch: ramp from the open end, flat face against the battery
     hull() {
-      translate([col_x[0], bat_front - 1, col_z - eps]) cube([col_x[1] - col_x[0], eps, eps]);
-      translate([col_x[0], bat_front - eps, col_z - 0.9]) cube([col_x[1] - col_x[0], eps, 0.9 + eps]);
+      translate([cx[0], bat_front - 1, col_z - eps]) cube([w, eps, eps]);
+      translate([cx[0], bat_front - eps, col_z - 0.9]) cube([w, eps, 0.9 + eps]);
     }
   }
 }
@@ -180,13 +215,13 @@ module frame() {
 module pads() {
   difference() {
     union() {
-      for (p = posts) translate([p[0], split_s, p[1]]) along_y() cylinder(d = 5, h = 3, $fn = 32);
+      for (p = posts) translate([p[0], split_s, p[1]]) along_y() cylinder(d = p[0] < 0 ? 4 : 5, h = 3, $fn = 32);
       // the two right pads hang off the frame columns, the left one off the wall
       for (sz = [-1, 1]) hull() {
         translate([col_x[0], split_s, sz > 0 ? col_z : -col_z - col_t]) cube([col_x[1] - col_x[0], 3, col_t]);
         translate([posts[1][0], split_s, sz * posts[1][1]]) along_y() cylinder(d = 4, h = 3, $fn = 24);
       }
-      translate([-head_r, split_s, -1.5]) cube([head_r + posts[0][0], 3, 3]);
+      translate([-head_r, split_s, -1]) cube([head_r + posts[0][0], 3, 2]);
     }
     // pin header on the back of the board
     translate([16.6, split_s - 1, -10.8]) cube([3.6, 5, 21.6]);
@@ -202,14 +237,16 @@ module head_back() {
       }
       intersection() {
         head_outer();
-        union() { frame(); pads(); }
+        union() { frame(); pads(); hp_bosses(); }
       }
     }
-    // groove the snap hooks click into
-    along_y() rotate_extrude($fn = 160) intersection() {
-      offset(delta = 0.2) hook_profile();
-      translate([hook_ri + hook_t + 0.05, 0]) square([5, 100]);
+    // a pocket for each snap hook's bump; they also stop the head back turning
+    for (a = hook_angles) sector(a, hook_half + 1) intersection() {
+      translate([0, -0.2]) offset(delta = 0.2) hook_profile();
+      translate([hook_ri + hook_t + 0.05, split_s]) square([5, 100]);
     }
+    // windows for the headphone clips
+    for (sx = [-1, 1]) translate([sx * 31, cup_cut - hp_clip_t / 2, 0]) cube([10, hp_clip_t + 0.5, 4.3], center = true);
     usb_slot();
     for (p = hex_grid(4, 10)) translate([p[0], head_side, p[1]]) along_y() cylinder(d = 2.4, h = head_dome + 5, $fn = 16);
     for (sx = [-1, 1]) translate([sx * (head_r - 5), cup_s, 0]) rotate([0, 90, 0]) linear_extrude(10, center = true) teardrop(3.3);
@@ -229,23 +266,42 @@ module cup_r() {
   difference() {
     cup_shape();
     head_outer(0.3);
+    hp_well();
     translate([cup_out - 0.8, cup_s, 0]) rotate([0, 90, 0]) difference() {
       cylinder(r = 9.6, h = 2, $fn = 96);
       translate([0, 0, -1]) cylinder(r = 8.4, h = 4, $fn = 96);
     }
   }
-  // snap peg: through the head wall, with a barb that catches on the inside
-  peg_in = head_r - wall - 0.1;
-  translate([head_r + 0.35, cup_s, 0]) rotate([0, -90, 0]) {
-    linear_extrude(head_r + 0.35 - peg_in) teardrop(3);
-    translate([0, 0, head_r + 0.35 - peg_in]) linear_extrude(1, scale = 2.4 / 3.6) hull() { teardrop(3); circle(d = 3.6, $fn = 24); }
-  }
+  // locating pin into the head wall; it stops the headphones rocking
+  translate([head_r + 0.35, cup_s, 0]) rotate([0, -90, 0]) linear_extrude(2.15) teardrop(3);
 }
 
-// round with a 45° point towards +y, so it prints without support either way up
-module teardrop(d) hull() {
-  circle(d = d, $fn = 24);
-  translate([0, d / sqrt(2)]) square(0.01, center = true);
+hp_root = hp_clip_x + 8.5;   // where the clip's two prongs join the cup
+
+// split clip, the same idea as the backpack pegs but flat, so it prints lying on the bed:
+// two prongs squeeze together through the window in the head, then spring apart behind it
+module hp_clip() translate([0, cup_cut, 0]) rotate([90, 0, 0]) linear_extrude(hp_clip_t)
+  for (m = [0, 1]) mirror([0, m]) polygon([
+    [hp_root + 0.5, 0.7], [hp_root + 0.5, 2.0], [hp_clip_x, 2.0], [hp_clip_x - 0.3, 2.5], [hp_clip_x - 0.6, 2.5],
+    [hp_clip_x - 2.1, 1.6], [hp_clip_x - 2.1, 0.7]]);
+
+// room in the cup for the prongs to bend
+module hp_well() translate([head_r - 8, cup_cut - hp_clip_t - 0.3, -2.7]) cube([hp_root - head_r + 8, hp_clip_t + 1.3, 5.4]);
+
+// flat faces inside the head back for the headphone clips to catch on
+module hp_bosses() for (sx = [-1, 1]) mirror([sx < 0 ? 1 : 0, 0, 0]) hull() {
+  translate([hp_clip_x, cup_cut - hp_clip_t - 1.2, -4.5]) cube([4, hp_clip_t + 2.4, 9]);
+  translate([head_r - wall - 0.1, cup_cut - hp_clip_t - 4, -4.5]) cube([2, 0.2, 9]);
+}
+
+// round with a 45° point towards +y, so it prints without support either way up;
+// top cuts the point off flat at that height
+module teardrop(d, top = 100) intersection() {
+  hull() {
+    circle(d = d, $fn = 32);
+    translate([0, d / sqrt(2)]) square(0.01, center = true);
+  }
+  translate([-d, -d]) square([2 * d, d + top]);
 }
 
 module band() sector(0, band_angle) intersection() {
@@ -254,7 +310,7 @@ module band() sector(0, band_angle) intersection() {
 }
 
 module headphones() intersection() {
-  union() { band(); cup_r(); mirror([1, 0, 0]) cup_r(); }
+  union() { band(); for (m = [0, 1]) mirror([m, 0, 0]) { cup_r(); hp_clip(); } }
   translate([-60, 6, -60]) cube([120, cup_cut - 6, 120]);
 }
 
@@ -320,6 +376,20 @@ module cable_channel() {
   }
 }
 
+// along +z at each head peg position, starting at the bottom of its pit
+module head_pegs() for (sx = [-1, 1]) translate([sx * peg_x, head_y + peg_s, head_z + seat_z - clip_pit]) children();
+
+// split peg along +z: the two halves squeeze together to pass a neck, then the barbs spring out
+module clip_peg(d, len, barb, slot) difference() {
+  union() {
+    cylinder(d = d, h = len, $fn = 32);
+    translate([0, 0, len]) cylinder(d1 = d, d2 = d + 2 * barb, h = 0.6 * barb, $fn = 32);
+    translate([0, 0, len + 0.6 * barb]) cylinder(d = d + 2 * barb, h = 0.3, $fn = 32);
+    translate([0, 0, len + 0.6 * barb + 0.3]) cylinder(d1 = d + 2 * barb, d2 = d - 0.6, h = 1.8, $fn = 32);
+  }
+  translate([-slot / 2, -d, 0]) cube([slot, 2 * d, len + 5]);
+}
+
 // along +y at each backpack peg position
 module backpack_pegs() for (sx = [-1, 1]) translate([sx * 7, 0, bp_peg_z]) rotate([-90, 0, 0]) children();
 
@@ -334,8 +404,9 @@ module body() intersection() {
         translate([0, 0, 6]) cylinder(d = 3.6, h = 24, $fn = 24);
         translate([0, 0, 6]) cylinder(d = 4.4, h = 3, $fn = 24);
       }
+      head_pegs() cylinder(d = clip_d + 1.6, h = 20, $fn = 32);
     }
-    for (sx = [-1, 1]) translate([sx * peg_x, head_y + peg_s, 44]) cylinder(d = 3.8, h = 7.4, $fn = 24);
+    head_pegs() clip_peg(clip_d, clip_catch - seat_z + clip_pit, clip_barb, clip_slot);
   }
   translate([-100, -100, base_z]) cube([200, 200, 200]);
 }
@@ -349,7 +420,8 @@ module backpack() {
       hull() for (x = [-9, 9], z = [13, 33], y = [12, bp_back - 3]) translate([x, y, z]) sphere(4);
       translate([-50, 0, 0]) cube([100, bp_back, 100]);
     }
-    translate([0, -0.25, 0]) body_shapes();
+    // 0.3 mm of clearance against the body
+    translate([0, 0.3, 0]) body_shapes();
     cable_channel();
     // flap seam above the cable opening
     translate([-9, bp_back - 1, chan_z[1] + 1.6]) cube([18, 2, 1.2]);
@@ -361,7 +433,7 @@ module backpack() {
       translate([0, 0, 8.3]) cylinder(d = 4.1, h = 0.4, $fn = 24);
       translate([0, 0, 6.5]) cylinder(d1 = 3.0, d2 = 4.1, h = 1.8, $fn = 24);
     }
-    backpack_pegs() translate([-0.45, -5, 6]) cube([0.9, 10, 7]);
+    backpack_pegs() translate([-0.45, -5, 6]) cube([0.9, 10, 10]);
   }
 }
 
@@ -373,7 +445,8 @@ module screen() head_place() {
     linear_extrude(0.2) offset(r = 2.5) square([2.5, 9], center = true);
 }
 
-module buttons_placed() for (a = [-btn_angle, btn_angle]) at_angle(a, btn_s) translate([0, 0, 24.9]) button();
+// resting on the switches, which end about 23.25 mm from the centre
+module buttons_placed() for (a = [-btn_angle, btn_angle]) at_angle(a, btn_s) translate([0, btn_t / 2, 23.25]) rotate([90, 0, 0]) button();
 
 module assembled() {
   color(hoodie) body();
@@ -390,8 +463,8 @@ module assembled() {
 // stand-ins for the bought parts, for the guide renders (head frame)
 module components() {
   color("#1d3b2a") {
-    translate([0, lip_t, 0]) along_y() cylinder(r = board_d / 2, h = 6.9, $fn = 120);
-    for (p = posts) translate([p[0], lip_t + 6.9, p[1]]) along_y() cylinder(d = 3.4, h = 3.5, $fn = 24);
+    translate([0, lip_t, 0]) along_y() cylinder(r = board_d / 2, h = pcb_back, $fn = 120);
+    for (p = posts) translate([p[0], lip_t + pcb_back, p[1]]) along_y() cylinder(d = 3.2, h = board_t - pcb_back, $fn = 24);
   }
   color("#6f8fb5") translate([-bat[0] / 2, bat_front + 0.2, -bat[1] / 2]) cube([bat[0], bat[2], bat[1]]);
   color("#444") translate([-spk[0] / 2, spk_front - spk[2], -spk[1] / 2]) cube([spk[0], spk[2], spk[1]]);
@@ -443,7 +516,7 @@ module p_body() translate([0, 0, -base_z]) body();
 module plate_white() {
   translate([-38, 0, 0]) p_head_front();
   translate([38, 0, 0]) p_head_back();
-  for (sx = [-1, 1]) translate([sx * 6, 45, 0]) button();
+  for (sx = [-1, 1]) translate([sx * 6, 42, 0]) button();
 }
 module plate_black() {
   translate([0, 10, 0]) p_headphones();

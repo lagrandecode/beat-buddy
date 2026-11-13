@@ -29,18 +29,25 @@ Every part is a single colour, so you don't need an AMS: print one plate per col
 
 | Part | Time on a Bambu A1 (0.2 mm) | Supports |
 | --- | --- | --- |
-| Head front | 1 h 23 m | None |
-| Head back | 2 h 52 m | **Tree supports (auto)**, for the inside of the dome |
-| Push-buttons ×2 | 4 m | None |
-| Headphones | 54 m | None |
-| Body | 4 h 18 m | None |
-| Backpack | 28 m | None |
+| Head front | 1 h 31 m | None |
+| Head back | 2 h 58 m | **Tree supports (auto)**, for the inside of the dome |
+| Push-buttons ×2 | 2 m | None |
+| Headphones | 57 m | None |
+| Body | 4 h 25 m | None |
+| Backpack | 26 m | None |
 
 About 10 hours in total. Filament: about 30 g white (including supports), 10 g black and 35 g of hoodie colour.
 
 - Material: PLA (matte looks best). Walls: 3. Infill: 15% gyroid.
 - The orientation is already set in the files, so don't rotate them. The head front prints screen side down and the head back prints with its open side down.
 - The head back's supports are all inside the dome, where nobody sees them. Pull them out through the open side.
+
+## How it clips
+
+| Head halves | Head on body | Headphones |
+| --- | --- | --- |
+| ![Hook in its pocket](renders/beat_buddy_clip_head.png) | ![Body peg in the head](renders/beat_buddy_clip_body.png) | ![Headphone clip](renders/beat_buddy_clip_headphones.png) |
+| Each hook on the head front (grey) has a bump that drops into a pocket inside the rim of the head back (blue). | Each split peg in the collar (red) squeezes through a neck in the head (grey) and springs open above it. | Each cup (black) has a flat split clip that springs open behind the wall of the head back (blue). |
 
 ## Parts to buy
 
@@ -51,14 +58,14 @@ About 10 hours in total. Filament: about 30 g white (including supports), 10 g b
 
 ## Assembly
 
-1. **Buttons:** from inside the head front, push the two printed buttons out through the two small holes near the top, collar side in.
-2. **Board:** drop the board into the head front, glass first, with the USB-C port at the bottom over the slot. Its PWR button sits behind the left button and BOOT behind the right one (seen from the front). The board holds the buttons in.
+1. **Buttons:** from inside the head front, push the two T-shaped buttons out through the two small slots near the top, wide end inside.
+2. **Board:** hold both buttons pushed outwards and drop the board into the head front, glass first, with the USB-C port at the bottom over the slot. Its PWR switch sits behind the left button and BOOT behind the right one (seen from the front). The board holds the buttons in.
 3. **Plugs:** plug the speaker into **SPK** and the battery into **BAT** (check that red goes to +).
 4. **Speaker and battery:** push the speaker into the frame inside the head back, cone first, until it stops against the four little ledges. Then push the battery in behind it until it clicks past the four catches.
-5. **Close the head:** line the four hooks on the head front up with the head back and press until they click. To open it, squeeze the head back at the hooks and pull.
-6. **Headphones:** spread them slightly and slide them over the back of the head until the two pegs click into the holes on the sides.
+5. **Close the head:** turn the head back so its bottom notch is over the USB-C slot, and press until the four hooks click into their pockets inside the head back's rim. To open it, pull the halves apart firmly, one side at a time.
+6. **Headphones:** push one cup's clip and pin into the slot and hole on one side of the head, then spread the band and click the other cup in.
 7. **Cable:** thread the cable in through the hole in the backpack, through the body and up out of the neck. Plug it into the board from below.
-8. **Head on body:** lower the head onto the collar so the plug drops into the neck channel and the two pegs go into the holes under the head.
+8. **Head on body:** lower the head onto the collar so the plug drops into the neck channel, and press down until the two pegs in the collar click into the holes under the head. It now stays on when you turn the robot upside down. To take it off, pull straight up firmly.
 9. **Backpack:** push its two pegs into the holes in the body's back until they click.
 
 ## Fitting your board
@@ -66,7 +73,9 @@ About 10 hours in total. Filament: about 30 g white (including supports), 10 g b
 The model uses Waveshare's dimension drawing. If something doesn't line up, measure your board and change these values at the top of `cad/beat_buddy.scad`, then run `cd cad && ./build.sh`:
 
 - `board_d` and `board_t`: the glass diameter, and the depth from the glass to the tops of the brass posts.
-- `usb_depth` and `btn_depth`: how far back from the glass the centres of the USB-C port and the PWR/BOOT buttons are.
-- `btn_angle`: how far either side of the top the PWR and BOOT buttons are, in degrees.
+- `pcb_back`: the depth from the glass to the back face of the circuit board. The buttons slide in just behind it.
+- `usb_depth`: how far back from the glass the centre of the USB-C port is.
+- `btn_angle`: how far either side of the top the PWR and BOOT switches are, in degrees.
+- `posts`: where the three brass posts are.
 
 The build needs OpenSCAD with the Manifold backend (a 2024 or later development snapshot).

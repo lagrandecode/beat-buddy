@@ -31,5 +31,12 @@ render beat_buddy_back preview 0,0,58,75,0,150,340
 render beat_buddy_print_plate plate_all 0,0,10,40,0,15,520
 render beat_buddy_exploded exploded 0,-5,70,72,0,58,500
 render beat_buddy_head_inside head_inside 0,25,0,70,0,25,170
+
+# cut-through pictures of the clips
+clip() { $OS -D "view=\"$2\"" --render --imgsize=$3 --colorscheme=Tomorrow --camera="$4" $5 --projection=$6 -o "../renders/$1.png" clip_views.scad; }
+clip beat_buddy_clip_head hook 1500,700 0,10.75,30,90,0,-90,24 "" ortho
+clip beat_buddy_clip_pockets pockets 1400,1200 0,16,0,62,0,28,165 "" perspective
+clip beat_buddy_clip_body body 1100,1100 12.5,-12,47,90,0,90,46 "" ortho
+clip beat_buddy_clip_headphones headphones 1300,900 34,24.5,0,90,0,180,46 "" ortho
 $OS -D 'part="cutaway"' --render --imgsize=1400,1400 --colorscheme=Tomorrow --camera=0,0,60,80,0,70,330 --projection=perspective -o ../renders/beat_buddy_cutaway.png "$SCAD"
 python3 volume.py "$OUT"/*.stl
