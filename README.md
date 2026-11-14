@@ -37,8 +37,9 @@ How firmly a clip clicks depends on the printer, and no model can predict that e
 | Push the head front corner (the piece with the round hole) down onto the red peg | Click, and need a firm pull to come off | Raise `clip_barb` by 0.1 | Lower `clip_barb` by 0.1 |
 | Push the ear cup's clip through the square window in the thin strip, with the pin in the round hole | Click, and not fall out when you shake it | Raise `hp_clip_barb` by 0.1 | Lower `hp_clip_barb` by 0.1 |
 | Stand the thin strip on the head front corner, with the hook inside it, and pinch them together | Let you feel the hook's bump drop into its pocket | Raise `hook_bump` by 0.1 | Lower `hook_bump` by 0.1 |
+| Push a button into its slot in the head front and turn the head over | Stay put, but still slide when you press it | Raise `btn_grip` by 0.05 | Lower `btn_grip` by 0.05 |
 
-Those three values are at the top of `cad/beat_buddy.scad`. Change one, run `cad/build.sh`, and only then print the full parts.
+Those four values are at the top of `cad/beat_buddy.scad`. Change one, run `cad/build.sh`, and only then print the full parts.
 
 Then print in this order, so a problem never costs more than one part: **head front + buttons** (check the board, the buttons and the USB-C slot), **head back**, **headphones and backpack**, and the **body** last.
 

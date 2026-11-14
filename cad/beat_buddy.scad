@@ -44,6 +44,7 @@ btn_t = 2.4;          // thickness; the buttons print lying flat
 btn_w = 3;            // stem width
 btn_head = [6, 1.2];  // wide inner end: width, length
 btn_len = 11.6;
+btn_grip = 0.15;      // how far each side's grip rib presses into the channel wall, so the buttons don't slide on their own
 
 /* [Head] */
 head_r = 33;
@@ -192,10 +193,17 @@ module head_front() {
 
 // PWR/BOOT push-button, lying flat as printed, pointing along +y. The wide end rests on
 // the board's switch; being flat, it reaches behind the circuit board without touching its edge.
+// A ramped rib on each side of the stem rubs the channel wall, so the button stays where it
+// is when the robot is turned over but still slides when pressed. The rib stays inside the
+// narrow channel over the whole press.
 module button() linear_extrude(btn_t) {
   translate([-btn_head[0] / 2, 0]) square(btn_head);
   translate([-btn_w / 2, 0]) square([btn_w, btn_len - btn_w / 2]);
   translate([0, btn_len - btn_w / 2]) circle(d = btn_w, $fn = 32);
+  rib = 0.2 + btn_grip;  // the channel has 0.2 mm of clearance each side
+  for (sx = [-1, 1]) scale([sx, 1]) polygon([
+    [btn_w / 2 - eps, 4.5], [btn_w / 2 + rib, 5.5], [btn_w / 2 + rib, 6.5], [btn_w / 2 - eps, 7.5]
+  ]);
 }
 
 // speaker and battery frame, four columns hanging from the dome
